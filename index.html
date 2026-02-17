@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic page setup -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- League Spartan font -->
+    <!-- Font style from Google -->
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- PyScript -->
+    <!-- PyScript allows Python to run inside the webpage -->
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
     <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
 
+    <!-- Title shown in browser tab -->
     <title>Sign up!</title>
 
     <style>
+        /* This styles the whole page background and font */
         body {
             font-family: 'League Spartan', sans-serif;
             background-image: url("Background.png");
@@ -21,11 +24,13 @@
             background-size: 100% 100%;
         }
 
+        /* Holds the logo and title together */
         .header-wrapper {
             display: flex;
             align-items: center;
         }
 
+        /* Logo size and position */
         .logo {
             height: 16rem;
             object-fit: contain;
@@ -33,6 +38,7 @@
             margin-left: 80px;
         }
 
+        /* Main title style */
         h1 {
             color: #7a0000;
             font-weight: 700;
@@ -40,6 +46,7 @@
             margin-bottom: 0;
         }
 
+        /* Subtitle style */
         .subtitle {
             color: #7a0000;
             font-weight: 700;
@@ -47,6 +54,7 @@
             margin-top: -10px;
         }
 
+        /* Container for username, password, and button */
         .boxes {
             margin-left: 150px;
             margin-top: -100px;
@@ -56,6 +64,7 @@
             width: 700px;
         }
 
+        /* Style for input boxes */
         .input-box {
             border: 4px solid #7a0000;
             border-radius: 40px;
@@ -68,11 +77,13 @@
             text-align: center;
         }
 
+        /* Placeholder text color */
         .input-box::placeholder {
             color: #b7745e;
             opacity: 1;
         }
 
+        /* Style for Sign Up button */
         .signup-btn {
             margin-top: 5px;
             width: 300px;
@@ -87,10 +98,12 @@
             align-self: center;
         }
 
+        /* Button hover effect */
         .signup-btn:hover {
             background-color: #a00000;
         }
 
+        /* Area where Python messages will appear */
         #output {
             margin-top: 5px;
             font-size: 1.5rem;
@@ -101,63 +114,89 @@
 </head>
 
 <body>
+
+    <!-- Header section with logo and title -->
     <div class="header-wrapper">
-        <img src="logo.png" alt="Logo" class="logo">
+        <img src="Logo.png" alt="Logo" class="logo">
         <div>
             <h1>CREATE</h1>
             <h4 class="subtitle">ACCOUNT</h4>
         </div>
     </div>
 
+    <!-- Input section -->
     <div class="boxes">
+
+        <!-- Username input field -->
         <input type="text" id="username" class="input-box" placeholder="USERNAME">
+
+        <!-- Password input field (hides characters) -->
         <input type="password" id="password" class="input-box" placeholder="PASSWORD">
 
+        <!-- Button that runs the Python function -->
         <button class="signup-btn" py-click="account_creation">Sign Up</button>
 
+        <!-- This is where validation messages will show -->
         <div id="output"></div>
     </div>
 
 
+<!-- Python Section -->
 <py-script>
 from pyscript import display, document
 
-# Check username length
+# This function checks if the username is at least 7 characters
 def username_verification(e):
+    # Clear old messages
     document.getElementById('output').innerHTML = ''
 
+    # Get the username typed by the user
     username = document.getElementById('username').value
+
+    # Check length requirement
     if len(username) < 7:
         display(f'❌ Username too short. Add {7 - len(username)} more character/s.', target='output')
     else:
         return True
 
 
-# Check password rules
+# This function checks all password rules
 def password_verification(e):
+    # Clear old messages
     document.getElementById('output').innerHTML = ''
 
+    # Get the password typed by the user
     password = document.getElementById('password').value
 
+    # Rule 1: Minimum of 10 characters
     if len(password) < 10:
         display(f'❌ Password too short. Add {10 - len(password)} more character/s.', target='output')
+
+    # Rule 2: Must contain at least one letter
     elif not any(char.isalpha() for char in password):
         display('❌ Password must contain at least one letter.', target='output')
+
+    # Rule 3: Must contain at least one number
     elif not any(char.isdigit() for char in password):
         display('❌ Password must contain at least one number.', target='output')
+
     else:
         return True
 
 
-# Final account check
+# This function runs when the Sign Up button is clicked
 def account_creation(e):
+    # Clear old messages
     document.getElementById('output').innerHTML = ''
 
+    # Check both username and password
     if username_verification(e) and password_verification(e):
         display('✅ Account created successfully!', target='output')
     else:
-        display('😔Try again.', target='output')
+        display('😔 Try again.', target='output')
+
 </py-script>
 
 </body>
 </html>
+
